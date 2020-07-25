@@ -17,6 +17,11 @@ module.exports = gql`
     id: ID!
     name: String
   }
+  type User {
+    id: ID!
+    email: String!
+    todos: [Todo]
+  }
 
   input TodoInput {
     id: ID,
@@ -34,13 +39,28 @@ module.exports = gql`
     id: ID!
     name: String
   }
+  input SignupInput {
+    email: String!
+    password: String!
+  }
+  input SigninInput {
+    email: String!
+    password: String!
+  }
+  input UserInput {
+    email: String!
+  }
+
   type Query {
     getTodos: [Todo]
+    getUser(userInput: UserInput!): User!
   }
   type Mutation {
     createTodo(todoInput: TodoInput): Todo!
     deleteTodo(todoInput: TodoInput): Todo!
     updateTodo(todoInput: TodoInput): Todo!
     deleteTodos: Boolean
+    signup(signupInput: SignupInput!): User!
+    signin(signinInput: SigninInput!): User!
   }
 `;
