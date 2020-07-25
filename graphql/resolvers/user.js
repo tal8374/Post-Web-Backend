@@ -12,10 +12,8 @@ module.exports = {
       await user.save();
       return user
     },
-    async signin(_, { signinInput }) {
-      console.log(signinInput)
+    async signin(_, { signinInput }, context) {
       let user = await UserModel.findOne({email: signinInput.email, password: signinInput.password})
-      console.log(user)
       return user
     },
   }

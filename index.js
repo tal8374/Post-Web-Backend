@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
 const { MONGODB } = require('./config.js');
+const { model: UserModel } = require('./models/User');
 
 const pubsub = new PubSub();
 
@@ -12,7 +13,11 @@ const PORT = process.env.port || 5000;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => ({ req, pubsub })
+  context: async ({ req }) => {
+    const userId = req.headers.authorization
+    const user = await UserModel.findOne({ _id: userId });
+    return ({ req, pubsub, user })
+  }
 });
 
 mongoose

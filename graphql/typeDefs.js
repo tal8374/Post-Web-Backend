@@ -57,8 +57,8 @@ module.exports = gql`
   }
   type Mutation {
     createTodo(todoInput: TodoInput): Todo!
-    deleteTodo(todoInput: TodoInput): Todo!
-    updateTodo(todoInput: TodoInput): Todo!
+    deleteTodo(todoInput: TodoInput): Boolean
+    updateTodo(todoInput: TodoInput): Boolean
     deleteTodos: Boolean
     signup(signupInput: SignupInput!): User!
     signin(signinInput: SigninInput!): User!
