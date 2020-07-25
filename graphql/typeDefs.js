@@ -1,54 +1,46 @@
 const { gql } = require('apollo-server');
 
 module.exports = gql`
-  type Post {
+  type Todo {
     id: ID!
-    body: String!
-    createdAt: String!
-    username: String!
-    comments: [Comment]!
-    likes: [Like]!
-    likeCount: Int!
-    commentCount: Int!
+    title: String
+    notes: [Note]
+    labels: [Label]
+    color: String
+    isCheckboxMode: Boolean
   }
-  type Comment {
+  type Note {
+    text: String!
+    isCompleted: Boolean
+  }
+  type Label {
     id: ID!
-    createdAt: String!
-    username: String!
-    body: String!
+    name: String
   }
-  type Like {
+
+  input TodoInput {
+    id: ID,
+    title: String
+    notes: [NoteInput]
+    labels: [LabelInput]
+    color: String
+    isCheckboxMode: Boolean
+  }
+  input NoteInput {
+    text: String!
+    isCompleted: Boolean
+  }
+  input LabelInput {
     id: ID!
-    createdAt: String!
-    username: String!
-  }
-  type User {
-    id: ID!
-    email: String!
-    token: String!
-    username: String!
-    createdAt: String!
-  }
-  input RegisterInput {
-    username: String!
-    password: String!
-    confirmPassword: String!
-    email: String!
+    name: String
   }
   type Query {
-    posts: [Post]
-    post(postId: ID!): Post
+    getTodos: [Todo]
   }
   type Mutation {
-    register(registerInput: RegisterInput): User!
-    login(username: String!, password: String!): User!
-    createPost(body: String!): Post!
-    deletePost(postId: ID!): String!
-    createComment(postId: String!, body: String!): Post!
-    deleteComment(postId: ID!, commentId: ID!): Post!
-    likePost(postId: ID!): Post!
-  }
-  type Subscription {
-    newPost: Post!
+    createTodo(todoInput: TodoInput): Todo!
+    deleteTodo(todoInput: TodoInput): Todo!
+    updateTodo(todoInput: TodoInput): Todo!
+    deleteTodos: Boolean
   }
 `;
